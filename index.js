@@ -1,7 +1,8 @@
 const inquirer = require("inquirer");
-// const {writeFile} = require("fs/promises")
-const { Circle, Square, Triangle } = require("./shapes")
-// const SVG = require("./svg")
+const { writeFile } = require("fs/promises")
+const { Circle, Square, Triangle } = require("./lib/shapes")
+const SVG = require("./lib/svg");
+const { write } = require("fs");
 
 const application = () => {
     inquirer.prompt([
@@ -26,8 +27,25 @@ const application = () => {
             name: "textColor",
             message: "What color would you like your SVG to be?"
         }
-    ]).then(() => {
-        // 
+    ]).then((res) => {
+        let shapeValue;
+        if(res.shape === "Circle") {
+            shapeValue = new Circle()
+        }
+        if(res.shape === "Square") {
+            shapeValue = new Square()
+        }
+        if(res.shape === "Triangle") {
+            shapeValue = new Triangle()
+        }
+        shapeValue.setColor(res.shapeColor)
+
+        const svg = new SVG()
+        svg.setText(res.text, res.textColor)
+        svg.setShape(shapeValue)
+        return writeFile(`./output/${res.shape}.svg`, svg.render())
+    }).then(() => {
+        console.log("SVG was successfully generated!")
     })
 }
 
