@@ -1,6 +1,6 @@
 const inquirer = require("inquirer");
 // const {writeFile} = require("fs/promises")
-// const {Circle, Square, Triangle} = require("./shapes")
+const { Circle, Square, Triangle } = require("./shapes")
 // const SVG = require("./svg")
 
 const application = () => {
@@ -26,7 +26,9 @@ const application = () => {
             name: "textColor",
             message: "What color would you like your SVG to be?"
         }
-    ])
+    ]).then(() => {
+        // 
+    })
 }
 
 application()
